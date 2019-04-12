@@ -1,6 +1,8 @@
 chrome.extension.sendMessage({}, function(response) {
   var trial;
   var commentsLoadedInterval, readyStateCheckInterval;
+  var querySelector =
+    "table:not([style='display:none']) .review-thread.comment-holder.js-line-comments:not([data-resolved=true])";
 
   var startLoading = function() {
     clearInterval(readyStateCheckInterval);
@@ -15,9 +17,7 @@ chrome.extension.sendMessage({}, function(response) {
   };
 
   var loadExtension = function() {
-    var comments = document.querySelectorAll(
-      "table:not([style='display:none']) .js-comments-holder"
-    );
+    var comments = document.querySelectorAll(querySelector);
     var toolbox = document.querySelector(".pr-review-tools");
     var gtprcnContent = document.querySelector(".gtprcn-content");
 
@@ -111,22 +111,16 @@ chrome.extension.sendMessage({}, function(response) {
       prevCommentButton.onclick = function() {
         window.scroll(
           0,
-          offset(
-            document.querySelectorAll(
-              "table:not([style='display:none']) .js-comments-holder"
-            )[getPrevComment()]
-          ).top - defaultOffsetToAdd
+          offset(document.querySelectorAll(querySelector)[getPrevComment()])
+            .top - defaultOffsetToAdd
         );
       };
 
       nextCommentButton.onclick = function() {
         window.scroll(
           0,
-          offset(
-            document.querySelectorAll(
-              "table:not([style='display:none']) .js-comments-holder"
-            )[getNextComment()]
-          ).top - defaultOffsetToAdd
+          offset(document.querySelectorAll(querySelector)[getNextComment()])
+            .top - defaultOffsetToAdd
         );
       };
     }
